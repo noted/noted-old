@@ -6,6 +6,24 @@ BRANCH = `git rev-parse --abbrev-ref HEAD`
 
 NOTED_VERSION = '0.1.0b'
 
+if ENV['DEBUG_REQUIRE']
+  require 'benchmark'
+
+  def require(file)
+    @@first ||= Time.now
+    rc = false
+    ts = Benchmark.measure do
+      rc = super
+    end
+    if ENV['DEBUG_REQUIRE'].to_f < ts.total
+      total = ts.format("%t require #{file}")
+      from_start = (Time.now - @@first).to_i
+      $stdout.puts "#{total} (#{from_start} second(s) from start)"
+    end
+    rc
+  end
+end
+
 require 'rubygems' unless defined?(Gem)
 require 'bundler/setup'
 
