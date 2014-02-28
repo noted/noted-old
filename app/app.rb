@@ -20,14 +20,14 @@ module Noted
     enable :sessions
 
 
-    configure :development, :production do
-      set :delivery_method, :smtp => {
-        :address => SMTP['address'],
-        :port => SMTP['port'],
-        :user_name => SMTP['username'],
-        :password => SMTP['password']
-      }
-    end
+    # configure :development, :production do
+    #   set :delivery_method, :smtp => {
+    #     :address => SMTP['address'],
+    #     :port => SMTP['port'],
+    #     :user_name => SMTP['username'],
+    #     :password => SMTP['password']
+    #   }
+    # end
 
     configure :development do
       use BetterErrors::Middleware
@@ -42,11 +42,11 @@ module Noted
 
       set :cache, Padrino::Cache::Store::Memcache.new(::Dalli::Client.new(ENV['MEMCACHIER_SERVERS'].split(','), { :username => ENV['MEMCACHIER_USERNAME'], :password => ENV['MEMCACHIER_PASSWORD']}))
 
-      Raven.configure do |config|
-        config.dsn = SENTRY['dsn']
-      end
-
-      use Raven::Rack
+      # Raven.configure do |config|
+      #   config.dsn = SENTRY['dsn']
+      # end
+      #
+      # use Raven::Rack
     end
 
     configure :test do
