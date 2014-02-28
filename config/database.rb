@@ -2,7 +2,7 @@ require 'yaml'
 
 # MongoMapper
 if PADRINO_ENV = 'production'
-  MongoMapper.setup({'production' => {'uri' => ENV['MONGODB_URI']}}, 'production')
+  MongoMapper.setup({'production' => {'uri' => ENV['MONGOHQ_URL']}}, 'production')
 else
   MongoMapper.setup(YAML.load_file(Padrino.root('.mongo.yml')), PADRINO_ENV, :logger => nil)
 end
